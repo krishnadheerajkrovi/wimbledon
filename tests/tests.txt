@@ -1,0 +1,15 @@
+{Query{
+  players(limit:20,sort:"fname") {
+    balance_usd_cents
+    efficiency
+    handed
+    is_active
+    name
+    num_dq
+    num_join
+    num_won
+    total_points
+    total_prize_usd_cents
+  }
+}}
+
