@@ -1,5 +1,5 @@
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-const { errorType } = require("../constants");
+const { errorType,enums } = require("../constants");
 const { MongoClient, ObjectId } = require("mongodb");
 const fs = require("fs");
 
@@ -94,7 +94,7 @@ function formatPlayer(player) {
     fname: player.fname,
     lname: player.lname,
     name: `${player.fname}${player.lname ? ` ${player.lname}` : ""}`,
-    handed: rev_enum[player.handed],
+    handed: enums.rev_enum[player.handed],
     is_active: player.is_active,
     num_join: player.num_join ? player.num_join : 0,
     num_won: player.num_won ? player.num_won : 0,
