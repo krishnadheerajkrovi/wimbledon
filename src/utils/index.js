@@ -1,7 +1,8 @@
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-const { errorType,enums } = require("../constants");
+const { errorType, enums } = require("../constants");
 const { MongoClient, ObjectId } = require("mongodb");
 const fs = require("fs");
+const redis = require("redis");
 
 function checkValidJSON(file_path) {
   try {
@@ -22,6 +23,18 @@ async function createMongoConnection(config) {
   const conn = connection.db(database);
   console.log("Connected to Mongo DB Server");
   return conn;
+}
+
+function createRedisClient(config) {
+  const redisClient = redis.createClient({
+    host: config || "localhost",
+    port: config.port || 6379,
+  });
+
+  redisClient.on("error", (err) => {
+    console.error("Redis client error:", err);
+  });
+  return redisClient;
 }
 
 function createExecutableSchema(resolvers, typeDefs) {
@@ -118,4 +131,5 @@ module.exports = {
   getErrorCode,
   formatMatch,
   formatPlayer,
+  createRedisClient,
 };

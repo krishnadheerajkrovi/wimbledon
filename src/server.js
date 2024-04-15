@@ -6,12 +6,15 @@ const node_port = 3000;
 async function startServer() {
   try {
     const mongoConfigPath = path.join(__dirname, "config/mongo.json");
+    const redisConfigPath = path.join(__dirname, "config/redis.json");
     const validJson = utils.checkValidJSON(mongoConfigPath);
     if (!validJson) {
       process.exit(2);
     } else {
       const mongoConfig = require(mongoConfigPath);
+      const redisConfig = require(redisConfigPath);
       const mongoConnection = await utils.createMongoConnection(mongoConfig);
+      const redisClient = utils.createRedisClient(redisConfig);
       app.set("db", mongoConnection);
       app.listen(node_port);
       console.log(
